@@ -1,43 +1,34 @@
+#ifndef PUSHOVERESP32_H_
+#define PUSHOVERESP32_H_
 
-#pragma once
-
+#include <Arduino.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <FS.h>
-#include <ESP32upload.h>
 
-
-
-struct PushoverMessage
-{
+struct PushoverMessage {
 public:
-	const char *message = "";
-	const char *title = "";
-	const char *url = "";
-	const char *url_title = "";
-	const char *sound = "";
-	bool html = false;
-	uint8_t priority = 0;
-	uint32_t timestamp;
-	File *attachment = NULL;
+    String message = "";
+    String title = "";
+    String url = "";
+    String url_title = "";
+    String sound = "";
+    String device = "";
+    bool html = false;
+    uint8_t priority = 0;
+    uint32_t timestamp = -1;
 };
 
-class Pushover
-{
+class Pushover {
 private:
-	uint16_t _timeout = 5000;
-	const char *_token;
-	const char *_user;
-	FS *_tempfileFS = NULL;
-	Uploader pushoverUploader;
+    uint16_t _timeout = 5000;
+    String _token;
+    String _user;
 
 public:
-	Pushover(const char *, const char *);
-	Pushover(const char *, const char *, FS *);
-	Pushover();
-	Pushover(FS *altFS);
-	void setUser(const char *);
-	void setToken(const char *);
-	int send(PushoverMessage message);
+    Pushover(String, String);
+    void setUser(String);
+    void setToken(String);
+    int send(PushoverMessage message);
 };
+
+#endif
